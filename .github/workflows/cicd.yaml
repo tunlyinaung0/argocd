@@ -48,4 +48,17 @@ jobs:
           yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE_NAME }}:${{ steps.short-sha.outputs.sha }}"' -i nginx-deployment.yaml
         working-directory: nginx-demo
 
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+        with: 
+          token: ${{ secrets.AUTH_TOKEN }}
+          commit-message: "update image tag"
+          title:  "update deployment image tag"
+          body: This PR is auto created by Github Actions
+          branch: update-tag
+          branch-suffix: random
+          delete-branch: true
+          labels: |
+            automated-pr
 
