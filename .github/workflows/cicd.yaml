@@ -43,7 +43,7 @@ jobs:
           chmod +x /usr/local/bin/yq
 
       - name: Update Deployment yaml
-        id: update deployment image
+        id: update-deployment-image
         run: |
           yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE_NAME }}:${{ steps.short-sha.outputs.sha }}"' -i nginx-deployment.yaml
         working-directory: nginx-demo
