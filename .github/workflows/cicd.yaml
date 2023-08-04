@@ -37,3 +37,15 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ steps.short-sha.outputs.sha }}
 
+      - name: Install yq
+        run: |
+          wget https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64 -O /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
+
+      - name: Update Deployment yaml
+        id: update deployment image
+        run: |
+          yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE_NAME }}:${{ steps.short-sha.outputs.sha }}"' -i nginx-deployment.yaml
+        working-directory: nginx-demo
+
+
