@@ -1,0 +1,24 @@
+name: Test
+run-name: Test
+on:
+  push:
+    branches: 
+      - staging
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2.3.4
+      
+      - name: set up node
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: '16'
+
+      - name: test
+        run: |
+          echo 'console.log("Hello, Node.js!");' > index.js
+          node index.js
